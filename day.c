@@ -44,7 +44,7 @@ int main(void)
     printf("%d\n", day[i]);
   }
   
-  return(0);
+  return(day);
 }
 
 
