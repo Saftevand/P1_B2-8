@@ -2,7 +2,30 @@
 #include <stdlib.h>
 #include <string.h>
 
-int *mathiasfunc(void)
+int **allocate_week(int Rows,int Cols)
+{
+  //Funktion der allokere plads til ugen
+  int **week = (int **)malloc(Rows * sizeof(int *));
+  int row;
+  for (row = 0; row < Rows; row++)
+  {
+    week[row] = (int *)malloc(Cols * sizeof(int));
+  }
+  return week;
+}
+
+int free_week(int **week,int Rows)
+{
+  //Funktion der frigiver den allokerede plads til ugen
+  int row;
+  for(row = 0; row < Rows; row++)
+  {
+    free(week[row]);
+  }
+  free(week);
+}
+
+int *create_day(void)
 {
   int i = 0, n = 0, j = 0, l = 0;
   int static k;
@@ -17,76 +40,58 @@ int *mathiasfunc(void)
     j += (1 + (rand() % 3));
   }
   
-  for( i = 1 ; i <= j ; i++ ) 
+  for( i = 0 ; i <= j ; i++ ) 
   {
-    k = (rand() % 11);
+    k = (rand() % 12);
     
     if(k == 0)
     {
-      k += (rand() % 11);
+      k += (rand() % 12);
     }
     day[i] = k;
   }
   return day;
 }
 
-int *create_scheme(void)
+void print_week(int Rows, int Cols, int **week)
 {
-  int n = 1, j, i, size = 0, z = 0, lenght_day = 0;
-  int danish, english, history, religion, math, nature;
-  int gym, music, pictures, homework, supported_teach;
-  int *day;
-  int static week[8][5];
-    homework = 0;
-    danish = 0, english = 0, history = 0, religion = 0, math = 0, nature = 0;
-    gym = 0, music = 0, pictures = 0, supported_teach = 0;
+  int i,j;
+  for(i = 0; i < Rows; ++i)
+  {
+    for(j = 0; j < Cols; ++j)
+    {
+      printf("%d\t",week[i][j]);
+    }
+    printf("\n");
+  }
+}
 
+int lenght_week(int **week)
+{
+  int lenght = 0, i, j, Rows = 8, Cols = 5;
+  for(i = 0; i < Cols; ++i)
+  {
+    for(j = 0; j < Rows; ++j)
+    {
+      if(week[j][i] != 0)
+      {
+        lenght++;
+      }
+    }
+  }
+  return lenght;
+}
+
+int **create_week(int **week)
+{
+  int j, i;
+  int *day;
     for (i = 0; i < 5; i++)
     {
-      day = mathiasfunc();
+      day = create_day();
       for(j = 0; j < 8; j++)
       {
         week[j][i] = * (day + j);
-        if(week[j][i] != 0)
-          lenght_day++;
-        switch(week[j][i])
-        {
-          case 0:
-            break;
-          case 1:
-            danish++;
-            break;
-          case 2:
-            english++;
-            break;
-          case 3:
-            history++;
-            break;
-          case 4:
-            religion++;
-            break;
-          case 5:
-            math++;
-            break;
-          case 6:
-            nature++;
-            break;
-          case 7:
-            gym++;
-            break;
-          case 8:
-            music++;
-            break;
-          case 9:
-            pictures++;
-            break;
-          case 10:
-            homework++;
-            break;
-          case 11:
-            supported_teach++;
-            break;
-        }
       }
     }
     return week;
@@ -95,15 +100,9 @@ int *create_scheme(void)
 int main( void )
 {
   time_t t;
-  int i,y;
-  int week[8][5];
+  int i,y,z = 35,h = 0;
   srand((unsigned) time(&t));
-  week = create_scheme();
-  for(i = 0; i < 8; ++i)
-  {
-    for(y = 0; y < 5; ++y)
-    {
-      printf("%d\n",week[y][i]);
-    }
-  }
+  int **week;
+  week = create_week(allocate_week(8,5));
+  free_week(week,8);
 }
