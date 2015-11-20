@@ -1,17 +1,25 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+int generate_day();
+int generate_week();
+void print_week(int week[5][8]);
+
 int main(void)
+{
+  time_t t;
+  srand((unsigned) time(&t));
+  printf("Mandag\n");
+
+  generate_day();
+}
+
+int generate_day()
 {
   int i = 0, n = 0, j = 0, l = 0;
   int static k;
-  time_t t;
   int day[8];
-   
-  srand((unsigned) time(&t));
-  
-  printf("Mandag \t\t Tirsdag \t\t Onsdag \t\t Torsdag \t\t Fredag\n");
-  
+    
   j = (rand() % 8);
   if(j < 4)
   {
@@ -36,9 +44,21 @@ int main(void)
     printf("%d\n", day[i]);
   }
   
-  return(day);
+  return day[8];
 }
 
+void print_week( int week[5][8])
+{
+  int i, j;
+  
+  for(i = 0; i <= 5; i++)
+  {
+    for(j = 0; j <= 8; j++)
+    {
+      printf("%d", week[i][j]);
+    }
+  }
+}
 
 /*
 void print_day(int day[])
