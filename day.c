@@ -32,15 +32,7 @@ int main(void)
     }
     
     day[i] = k;
-/*
-    if(j < 8)
-    {
-      for(l = j + 1; l <= 8; l++)
-      {
-        day[l] = 0;
-      }
-    }
-    */
+
     printf("%d\n", day[i]);
   }
   
